@@ -22,18 +22,7 @@ namespace VisitableSettlements
                 {
 					Action action = delegate ()
 					{
-                        Map map = Current.Game.FindMap(__instance.Tile);
-                        if (map == null)
-                        {
-                            MapParent mapParent = Find.WorldObjects.MapParentAt(__instance.Tile);
-                            if (mapParent is Settlement settlement)
-                            {
-                                Utils.TryInitiateLoadingFromPreset(settlement);
-                            }
-                        }
-                        Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(__instance.Tile, null);
-						CaravanEnterMapUtility.Enter(caravan, orGenerateMap, CaravanEnterMode.Edge, 0, true, null);
-                        orGenerateMap.GetComponent<MapComponentGeneration>().factionCells = EncounterFramework.Utils.GetFactionCells(orGenerateMap, null, orGenerateMap.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial), out _);
+						Utils.TryEnterOrGenerateMap(caravan, __instance);
                     };
 					LongEventHandler.QueueLongEvent(action, "GeneratingMapForNewEncounter", false, null, true);
 				}

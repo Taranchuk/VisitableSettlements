@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using RimWorld.Planet;
 using System;
 using UnityEngine;
 using Verse;
@@ -41,11 +42,5 @@ namespace VisitableSettlements
                 }
             }
         }
-    }
-
-    [DefOf]
-    public static class VS_DefOf
-    {
-        public static HistoryEventDef VS_Looting;
     }
 }

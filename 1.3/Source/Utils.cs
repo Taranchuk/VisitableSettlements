@@ -64,7 +64,25 @@ namespace VisitableSettlements
             }
             return false;
         }
-
+        public static void TryEnterOrGenerateMap(Caravan caravan, Settlement settlement)
+        {
+            if (settlement.HasMap is false)
+            {
+                if (!TryInitiateLoadingFromPreset(settlement))
+                {
+                    LongEventHandler.QueueLongEvent(delegate
+                    {
+                        Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(settlement.Tile, null);
+                        CaravanEnterMapUtility.Enter(caravan, orGenerateMap, CaravanEnterMode.Edge, 0, true, null);
+                    }, "GeneratingMapForNewEncounter", false, null, true);
+                }
+            }
+            else
+            {
+                Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(settlement.Tile, null);
+                CaravanEnterMapUtility.Enter(caravan, orGenerateMap, CaravanEnterMode.Edge, 0, true, null);
+            }
+        }
 
     }
 }

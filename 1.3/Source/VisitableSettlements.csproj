@@ -47,15 +47,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CaravanArrivalAction_VisitSettlement_Arrived_Patch.cs" />
+    <Compile Include="Faction_TryAffectGoodwillWith_Patch.cs" />
     <Compile Include="GameComponent_VisitedSettlements.cs" />
     <Compile Include="Game_DeinitAndRemoveMap_Patch.cs" />
     <Compile Include="SettlementDefeatUtility_CheckDefeated_Patch.cs" />
+    <Compile Include="SettlementUtility_AttackNow_Patch.cs" />
     <Compile Include="Settlement_GetCaravanGizmos_Patch.cs" />
     <Compile Include="ThingOwner_TryAdd_Patch.cs" />
     <Compile Include="TimedDetectionRaids_StartDetectionCountdown_Patch.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="VisitableSettlementsMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VS_DefOf.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Krafs.Publicizer">
