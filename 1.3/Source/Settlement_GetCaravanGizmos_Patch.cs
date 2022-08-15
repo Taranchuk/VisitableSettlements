@@ -9,19 +9,6 @@ using Verse;
 
 namespace VisitableSettlements
 {
-    [HarmonyPatch(typeof(CaravanArrivalAction_VisitSettlement), "Arrived")]
-    public static class CaravanArrivalAction_VisitSettlement_Arrived_Patch
-    {
-        public static void Prefix(CaravanArrivalAction_VisitSettlement __instance, Caravan caravan, Settlement ___settlement)
-        {
-            if (___settlement.HasMap is false)
-            {
-                Utils.TryInitiateLoadingFromPreset(___settlement);
-            }
-        }
-
-    }
-
     [HarmonyPatch(typeof(Settlement), "GetCaravanGizmos")]
 	public static class Settlement_GetCaravanGizmos_Patch
 	{
@@ -31,7 +18,6 @@ namespace VisitableSettlements
 			{
 				icon = SettleUtility.SettleCommandTex,
 				defaultLabel = "VisitSettlement".Translate(__instance.Name),
-				defaultDesc = "VisitSettlementDesc".Translate(),
                 action = delegate ()
                 {
 					Action action = delegate ()
@@ -47,7 +33,7 @@ namespace VisitableSettlements
                         }
                         Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(__instance.Tile, null);
 						CaravanEnterMapUtility.Enter(caravan, orGenerateMap, CaravanEnterMode.Edge, 0, true, null);
-                        Log.Message(caravan + " enters " + orGenerateMap);
+                        orGenerateMap.GetComponent<MapComponentGeneration>().factionCells = EncounterFramework.Utils.GetFactionCells(orGenerateMap, null, orGenerateMap.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial), out _);
                     };
 					LongEventHandler.QueueLongEvent(action, "GeneratingMapForNewEncounter", false, null, true);
 				}

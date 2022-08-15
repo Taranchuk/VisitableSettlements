@@ -24,7 +24,7 @@ namespace VisitableSettlements
             comp.visitedSettlementsWithTicks[settlement] = visitedTick;
         }
 
-        public static void TryInitiateLoadingFromPreset(Settlement ___settlement)
+        public static bool TryInitiateLoadingFromPreset(Settlement ___settlement)
         {
             var comp = Current.Game.GetComponent<GameComponent_VisitedSettlements>();
             if (comp.visitedSettlementsWithPaths.TryGetValue(___settlement, out var basePath))
@@ -32,15 +32,39 @@ namespace VisitableSettlements
                 if (comp.visitedSettlementsWithTicks.TryGetValue(___settlement, out var visitedTick))
                 {
                     var path = GetPath(basePath, visitedTick);
-                    GenerationContext.locationData = new LocationData(new LocationDef
-                    {
-                        defName = ___settlement.Name,
-                        factionBase = ___settlement.Faction.def,
-                        filePreset = path,
-                        despawnEverythingOnTheMapBeforeGeneration = true
-                    }, new FileInfo(Path.GetFullPath(path)), ___settlement);
+                    GenerationContext.locationData = new LocationData(GetLocationDef(___settlement, path), 
+                        new FileInfo(Path.GetFullPath(path)), ___settlement);
+                    return true;
                 }
             }
+            return false;
         }
+
+        private static LocationDef GetLocationDef(Settlement ___settlement, string path)
+        {
+            return new LocationDef
+            {
+                defName = ___settlement.Name,
+                factionBase = ___settlement.Faction.def,
+                filePreset = path,
+                despawnEverythingOnTheMapBeforeGeneration = true
+            };
+        }
+
+        public static bool BelongsToAnotherFaction(this Thing item)
+        {
+            var map = item.MapHeld;
+            if (map?.ParentFaction != null)
+            {
+                var comp = map.GetComponent<MapComponentGeneration>();
+                if (comp.factionCells.Contains(item.Position))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
     }
 }
