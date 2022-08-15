@@ -11,7 +11,6 @@ namespace VisitableSettlements
     {
         public static void Prefix(Faction __instance, Faction other, out bool __state)
         {
-            var faction = __instance != Faction.OfPlayer ? __instance : other;
             __state = false;
             if (__instance.IsPlayer || other.IsPlayer)
             {
