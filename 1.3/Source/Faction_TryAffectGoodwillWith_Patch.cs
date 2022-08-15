@@ -17,7 +17,6 @@ namespace VisitableSettlements
             {
                 if (!__instance.HostileTo(other))
                 {
-                    Log.Message("2 Become hostile: " + faction);
                     __state = true;
                 }
             }
@@ -30,7 +29,6 @@ namespace VisitableSettlements
                 if (__state && __instance.HostileTo(other))
                 {
                     var faction = __instance != Faction.OfPlayer ? __instance : other;
-                    Log.Message("Become hostile: " + faction);
                     foreach (var settlement in Find.World.worldObjects.Settlements.Where(x => x.HasMap && x.Faction == faction))
                     {
                         settlement.GetComponent<TimedDetectionRaids>().StartDetectionCountdown(240000);

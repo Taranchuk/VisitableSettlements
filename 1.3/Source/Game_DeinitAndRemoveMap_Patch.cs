@@ -9,7 +9,6 @@ namespace VisitableSettlements
 	{
 		public static void Prefix(Map map)
 		{
-            Log.Message("Removing map: " + map);
 			if (map?.Parent is Settlement settlement)
 			{
                 Utils.SaveSettlement(map, settlement);

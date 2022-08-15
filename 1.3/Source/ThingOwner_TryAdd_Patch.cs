@@ -36,7 +36,6 @@ namespace VisitableSettlements
             {
                 if (item.BelongsToAnotherFaction() && pawnFaction != null)
                 {
-                    Log.Message("Stealing " + item);
                     item.MapHeld.ParentFaction.TryAffectGoodwillWith(pawnFaction,
                         -Mathf.RoundToInt((item.stackCount * item.MarketValue) / 10f), reason: VS_DefOf.VS_Looting);
                 }
